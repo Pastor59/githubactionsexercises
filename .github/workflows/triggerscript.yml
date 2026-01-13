@@ -1,0 +1,8 @@
+name: Trigger script practise
+on: [push, pull_request]
+jobs:
+  trigger-a-script:
+    run-on: ubuntu-latest
+    steps:
+      - name: Run the script
+        run: ./helloWorldScript.sh
