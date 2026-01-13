@@ -1,0 +1,11 @@
+name: Hello world
+run-name: ${{ github.actor }} is testing out Github actions
+on:
+  push:
+    branches: [ main ]
+jobs:
+  hello-world-job:
+    runs-on : ubuntu-latest
+    steps:
+      - name: Hello world steps
+        run: echo "Hello world! The developer {{ github.actor }} has triggered the worflow on repo {{ github.repository }}"
