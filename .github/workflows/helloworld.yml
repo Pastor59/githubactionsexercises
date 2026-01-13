@@ -8,4 +8,4 @@ jobs:
     runs-on : ubuntu-latest
     steps:
       - name: Hello world steps
-        run: echo "Hello world! The developer {{ github.actor }} has triggered the worflow on repo {{ github.repository }}"
+        run: echo "Hello world! The developer ${{ github.actor }} has triggered the worflow on repo ${{ github.repository }}"
