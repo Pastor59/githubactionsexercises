@@ -1,6 +1,6 @@
 name: Training matrix
 on:
-  - push:
+  push:
       branches:
         - matrix-branch
 jobs:
