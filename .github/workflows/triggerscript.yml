@@ -1,0 +1,12 @@
+name: Trigger script practise
+on: [push, pull_request]
+jobs:
+  trigger-a-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Make the script executable
+        run: chmod +x helloWorldScript.sh
+      - name: Run the script
+        run: ./helloWorldScript.sh

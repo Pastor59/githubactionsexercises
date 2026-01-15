@@ -1,0 +1,22 @@
+name: Training matrix
+on:
+  push:
+      branches:
+        - matrix-branch
+jobs:
+  example-matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        nodeversion: [16, 18, 20]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Node.js ${{ matrix.nodeversion }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.nodeversion }}
+      - name: Install dependencies
+        run: npm install
+      - name: Build app
+        run: npm run build
