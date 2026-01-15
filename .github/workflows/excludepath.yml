@@ -20,19 +20,20 @@ jobs:
       - name: Set changes on frontend
         id: fe
         run: |
-          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -q '^frontend/'; then
-            echo "diff-on-fe=true" >> $GITHUB_OUTPUT
-          else
-            echo "diff-on-fe=false" >> $GITHUB_OUTPUT
-          fi
-      - name: Set changes on backend
-        id: be
-        run: |
             BASE=${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
             if git diff --name-only "$BASE...HEAD" | grep -q '^frontend/'; then
               echo "diff-on-fe=true" >> $GITHUB_OUTPUT
             else
               echo "diff-on-fe=false" >> $GITHUB_OUTPUT
+            fi       
+      - name: Set changes on backend
+        id: be
+        run: |
+            BASE=${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
+            if git diff --name-only "$BASE...HEAD" | grep -q '^backend/'; then
+              echo "diff-on-be=true" >> $GITHUB_OUTPUT
+            else
+              echo "diff-on-be=false" >> $GITHUB_OUTPUT
             fi       
   front-end-job:
     needs: getdiff
