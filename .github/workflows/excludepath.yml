@@ -10,37 +10,39 @@ jobs:
   getdiff:
     runs-on: ubuntu-latest
     outputs: 
-      diff-on-fe: 
-      diff-on-be:
+      diff-on-fe: ${{ steps.fe.outputs.diff-on-fe }}
+      diff-on-be: ${{ steps.be.outputs.diff-on-be }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Set changes on frontend
+        id: fe
         run: |
-          if git diff --name-only origin/new-project...HEAD | grep '^frontend/'; then
+          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -q '^frontend/'; then
             echo "diff-on-fe=true" >> $GITHUB_OUTPUT
           else
             echo "diff-on-fe=false" >> $GITHUB_OUTPUT
           fi
       - name: Set changes on backend
+        id: be
         run: |
-          if git diff --name-only origin/new-project...HEAD | grep '^backend/'; then
+          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -q '^backend/'; then
             echo "diff-on-be=true" >> $GITHUB_OUTPUT
           else
             echo "diff-on-be=false" >> $GITHUB_OUTPUT
           fi          
   front-end-job:
-    if: needs.getdiff.outputs.diff-on-fe == 'true'
     needs: getdiff
+    if: needs.getdiff.outputs.diff-on-fe == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Change on front end
         run: echo 'A change on frontend folder has been done'
   back-end-job:
-    if: needs.getdiff.outputs.diff-on-be == 'true'
     needs: getdiff
+    if: needs.getdiff.outputs.diff-on-be == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Change on back end
