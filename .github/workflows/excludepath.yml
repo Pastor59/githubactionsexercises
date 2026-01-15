@@ -1,0 +1,32 @@
+name: Trigger actions depending on folder change
+on:
+  push:
+    branches:
+      - new-project
+  pull_request: 
+     branches:
+      - new-project
+jobs:
+  getdiff:
+    runs-on: ubuntu-latest
+    outputs: 
+      diff-on-fe: 
+      diff-on-be:
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+  front-end-job:
+    needs: getdiff
+    runs-on: ubuntu-latest
+    steps:
+      - name: Change on front end
+        run: echo 'A change on frontend folder has been done'
+  back-end-job:
+    needs: getdiff
+    runs-on: ubuntu-latest
+    steps:
+      - name: Change on back end
+        run: echo 'A change on backend folder has been done'
