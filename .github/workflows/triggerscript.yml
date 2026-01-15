@@ -1,5 +1,11 @@
 name: Trigger script practise
-on: [push, pull_request]
+on:
+  push: 
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 jobs:
   trigger-a-script:
     runs-on: ubuntu-latest
